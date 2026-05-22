@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">Network and security dashboard illustration</title>
+  <desc id="desc">A stylized network operations dashboard with connected nodes, security shield, and routing paths.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset=".58" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#f6c453"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".92"/>
+      <stop offset="1" stop-color="#dff7f2" stop-opacity=".82"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#06111f" flood-opacity=".26"/>
+    </filter>
+  </defs>
+
+  <rect width="960" height="640" rx="36" fill="url(#bg)"/>
+  <g opacity=".25" stroke="#ffffff" stroke-width="1">
+    <path d="M0 112h960M0 224h960M0 336h960M0 448h960M0 560h960"/>
+    <path d="M120 0v640M240 0v640M360 0v640M480 0v640M600 0v640M720 0v640M840 0v640"/>
+  </g>
+
+  <g fill="none" stroke="#e7fffb" stroke-width="5" stroke-linecap="round" opacity=".78">
+    <path d="M184 178C292 96 392 98 484 184S690 294 796 198"/>
+    <path d="M170 440c122-110 260-104 392-14 78 54 154 56 238-2"/>
+    <path d="M220 290h194c66 0 92 66 150 66h204"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="104" y="96" width="300" height="220" rx="22" fill="url(#panel)"/>
+    <rect x="556" y="92" width="300" height="220" rx="22" fill="url(#panel)"/>
+    <rect x="270" y="376" width="420" height="170" rx="22" fill="url(#panel)"/>
+  </g>
+
+  <g fill="#0f172a">
+    <text x="136" y="145" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800">Datacom</text>
+    <text x="588" y="141" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800">Security</text>
+    <text x="302" y="425" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800">Operations</text>
+  </g>
+
+  <g fill="none" stroke="#0f766e" stroke-width="8" stroke-linecap="round">
+    <path d="M150 252h210"/>
+    <path d="M150 214h132"/>
+    <path d="M150 176h176"/>
+    <path d="M596 252h210"/>
+    <path d="M596 214h148"/>
+    <path d="M596 176h178"/>
+  </g>
+
+  <g>
+    <path d="M706 164l68 24v56c0 42-28 78-68 90-40-12-68-48-68-90v-56l68-24z" fill="#0f766e"/>
+    <path d="M676 242l22 22 48-64" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g stroke="#0f766e" stroke-width="5" fill="#ffffff">
+    <circle cx="342" cy="470" r="22"/>
+    <circle cx="448" cy="470" r="22"/>
+    <circle cx="554" cy="470" r="22"/>
+    <circle cx="448" cy="502" r="18"/>
+    <path d="M364 470h62M470 470h62M448 492v-22"/>
+  </g>
+
+  <g fill="#f6c453">
+    <circle cx="184" cy="178" r="14"/>
+    <circle cx="484" cy="184" r="14"/>
+    <circle cx="796" cy="198" r="14"/>
+    <circle cx="170" cy="440" r="14"/>
+    <circle cx="562" cy="426" r="14"/>
+    <circle cx="800" cy="424" r="14"/>
+  </g>
+</svg>

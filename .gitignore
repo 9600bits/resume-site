@@ -1,0 +1,5 @@
+private-resume.json
+*.local.json
+preview-server*.log
+.DS_Store
+Thumbs.db
