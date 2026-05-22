@@ -151,6 +151,7 @@ function createContactBlock(contact = []) {
   const list = element("ul", "contact-list contact-card-list");
   for (const item of contact) {
     const listItem = element("li", "contact-card");
+    listItem.tabIndex = 0;
     const icon = element("span", `contact-icon ${getContactIconClass(item.label)}`);
     icon.innerHTML = getContactIcon(item.label);
     icon.setAttribute("aria-hidden", "true");
@@ -162,11 +163,28 @@ function createContactBlock(contact = []) {
     );
 
     listItem.append(icon, content);
+    if (item.label.includes("微信")) {
+      listItem.classList.add("has-qr");
+      listItem.append(createWechatQr());
+    }
     list.append(listItem);
   }
 
   block.append(list);
   return block;
+}
+
+function createWechatQr() {
+  const preview = element("div", "wechat-qr-preview");
+  const image = document.createElement("img");
+  image.src = "assets/wechat-qr.jpg";
+  image.alt = "微信二维码";
+  image.loading = "lazy";
+  preview.append(
+    image,
+    element("span", "", "扫码添加微信")
+  );
+  return preview;
 }
 
 function getContactIconClass(label = "") {

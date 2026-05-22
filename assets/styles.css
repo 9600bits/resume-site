@@ -241,6 +241,13 @@ h1 {
   color: var(--muted);
 }
 
+.education-summary {
+  margin: 10px 0 0;
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 15px;
+}
+
 .section-badge {
   padding: 0 12px;
   color: var(--gold);
@@ -487,6 +494,7 @@ h1 {
 }
 
 .contact-card-list li.contact-card {
+  position: relative;
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr);
   gap: 12px;
@@ -496,6 +504,64 @@ h1 {
   border-radius: 8px;
   padding: 12px;
   background: #ffffff;
+}
+
+.contact-card.has-qr {
+  cursor: default;
+}
+
+.wechat-qr-preview {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  z-index: 5;
+  display: grid;
+  gap: 8px;
+  width: 190px;
+  justify-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--ink);
+  background: #ffffff;
+  box-shadow: 0 18px 38px rgba(16, 24, 40, 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.wechat-qr-preview::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #ffffff;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.wechat-qr-preview img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.wechat-qr-preview span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.contact-card.has-qr:hover .wechat-qr-preview,
+.contact-card.has-qr:focus-within .wechat-qr-preview,
+.contact-card.has-qr:focus .wechat-qr-preview {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .contact-copy {
@@ -638,6 +704,18 @@ html {
   .cert-grid,
   .contact-card-list {
     grid-template-columns: 1fr;
+  }
+
+  .wechat-qr-preview {
+    left: auto;
+    right: 12px;
+    transform: translate(0, 8px);
+  }
+
+  .contact-card.has-qr:hover .wechat-qr-preview,
+  .contact-card.has-qr:focus-within .wechat-qr-preview,
+  .contact-card.has-qr:focus .wechat-qr-preview {
+    transform: translate(0, 0);
   }
 
   .split-head {
