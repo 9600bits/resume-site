@@ -163,9 +163,9 @@ function createContactBlock(contact = []) {
     );
 
     listItem.append(icon, content);
-    if (item.label.includes("微信")) {
+    if (item.qrImage) {
       listItem.classList.add("has-qr");
-      listItem.append(createWechatQr());
+      listItem.append(createWechatQr(item.qrImage));
     }
     list.append(listItem);
   }
@@ -174,10 +174,10 @@ function createContactBlock(contact = []) {
   return block;
 }
 
-function createWechatQr() {
+function createWechatQr(src) {
   const preview = element("div", "wechat-qr-preview");
   const image = document.createElement("img");
-  image.src = "assets/wechat-qr.jpg";
+  image.src = src;
   image.alt = "微信二维码";
   image.loading = "lazy";
   preview.append(
