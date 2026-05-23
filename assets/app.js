@@ -178,11 +178,7 @@ function createAttachmentBlock() {
 }
 
 async function downloadAttachment(password) {
-  const response = await fetch("resume-attachment.enc.json", { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error("Encrypted attachment file could not be loaded.");
-  }
-  const payload = await response.json();
+  const payload = await fetchEncryptedAttachment();
   const bytes = await decryptBinaryPayload(payload, password);
   const blob = new Blob([bytes], { type: payload.mimeType || "application/octet-stream" });
   const url = URL.createObjectURL(blob);
@@ -193,6 +189,19 @@ async function downloadAttachment(password) {
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
+}
+
+async function fetchEncryptedAttachment() {
+  const embedded = document.querySelector("#encrypted-attachment-data");
+  if (embedded?.textContent.trim()) {
+    return JSON.parse(embedded.textContent);
+  }
+
+  const response = await fetch("resume-attachment.enc.json", { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error("Encrypted attachment file could not be loaded.");
+  }
+  return response.json();
 }
 
 async function decryptBinaryPayload(payload, password) {
