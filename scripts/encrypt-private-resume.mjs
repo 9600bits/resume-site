@@ -11,7 +11,7 @@ const options = parseArgs(process.argv.slice(2));
 const inputPath = resolve(options.input || "private-resume.json");
 const outputPath = resolve(options.output || "private-resume.enc.json");
 
-const password = options.password || await askPassword();
+const password = await askPassword();
 if (!password) {
   throw new Error("Password cannot be empty.");
 }
@@ -47,9 +47,6 @@ function parseArgs(args) {
       index += 1;
     } else if (current === "--output" || current === "-o") {
       parsed.output = args[index + 1];
-      index += 1;
-    } else if (current === "--password") {
-      parsed.password = args[index + 1];
       index += 1;
     }
   }

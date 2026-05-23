@@ -17,7 +17,7 @@ if (!options.input) {
   throw new Error("Missing --input <file>.");
 }
 
-const password = options.password || await askPassword();
+const password = await askPassword();
 if (!password) {
   throw new Error("Password cannot be empty.");
 }
@@ -52,9 +52,6 @@ function parseArgs(args) {
       index += 1;
     } else if (current === "--output" || current === "-o") {
       parsed.output = args[index + 1];
-      index += 1;
-    } else if (current === "--password") {
-      parsed.password = args[index + 1];
       index += 1;
     } else if (current === "--name") {
       parsed.name = args[index + 1];

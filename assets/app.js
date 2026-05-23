@@ -5,9 +5,18 @@ const privateContent = document.querySelector("#private-content");
 
 const textDecoder = new TextDecoder();
 let activePassword = "";
+let failedAttempts = 0;
+let lockoutUntil = 0;
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  const now = Date.now();
+  if (lockoutUntil > now) {
+    const remainingSeconds = Math.ceil((lockoutUntil - now) / 1000);
+    setStatus(`尝试次数过多，请等待 ${remainingSeconds} 秒后重试。`);
+    return;
+  }
 
   const password = passwordInput.value;
   if (!password) {
@@ -23,13 +32,23 @@ form.addEventListener("submit", async (event) => {
     const encrypted = await fetchEncryptedResume();
     const resume = await decryptResume(encrypted, password);
     activePassword = password;
+    failedAttempts = 0;
     renderResume(resume);
     form.hidden = true;
     privateContent.hidden = false;
     setStatus("");
   } catch (error) {
     console.error(error);
-    setStatus("密码不正确，或加密数据无法读取。");
+    failedAttempts += 1;
+
+    if (failedAttempts >= 5) {
+      lockoutUntil = Date.now() + 30000;
+      setStatus("尝试次数过多，请等待 30 秒后重试。");
+    } else if (failedAttempts >= 3) {
+      setStatus(`访问失败，剩余尝试次数：${5 - failedAttempts}`);
+    } else {
+      setStatus("访问失败，请检查密码。");
+    }
   } finally {
     button.disabled = false;
   }
@@ -178,17 +197,22 @@ function createAttachmentBlock() {
 }
 
 async function downloadAttachment(password) {
-  const payload = await fetchEncryptedAttachment();
-  const bytes = await decryptBinaryPayload(payload, password);
-  const blob = new Blob([bytes], { type: payload.mimeType || "application/octet-stream" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = payload.fileName || "resume.pdf";
-  document.body.append(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
+  try {
+    const payload = await fetchEncryptedAttachment();
+    const bytes = await decryptBinaryPayload(payload, password);
+    const blob = new Blob([bytes], { type: payload.mimeType || "application/octet-stream" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = payload.fileName || "resume.pdf";
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  } finally {
+    // Clear password reference after use
+    password = null;
+  }
 }
 
 async function fetchEncryptedAttachment() {
