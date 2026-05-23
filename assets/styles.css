@@ -473,6 +473,36 @@ h1 {
   font-size: 20px;
 }
 
+.attachment-block {
+  display: grid;
+  gap: 12px;
+}
+
+.attachment-block h3 {
+  margin-bottom: 0;
+}
+
+.download-attachment-btn {
+  width: fit-content;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 18px;
+  color: #fff;
+  background: var(--accent);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.download-attachment-btn:hover {
+  background: var(--accent-dark);
+}
+
+.download-attachment-btn:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .timeline,
 .clean-list,
 .contact-list {

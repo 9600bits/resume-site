@@ -4,6 +4,7 @@ const statusEl = document.querySelector("#unlock-status");
 const privateContent = document.querySelector("#private-content");
 
 const textDecoder = new TextDecoder();
+let activePassword = "";
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -21,6 +22,7 @@ form.addEventListener("submit", async (event) => {
   try {
     const encrypted = await fetchEncryptedResume();
     const resume = await decryptResume(encrypted, password);
+    activePassword = password;
     renderResume(resume);
     form.hidden = true;
     privateContent.hidden = false;
@@ -115,6 +117,7 @@ function createPrivateGrid(resume) {
     element("span", "item-title", item.company),
     element("span", "item-meta", [item.period, item.role].filter(Boolean).join(" / ")),
   ], "timeline full-width"));
+  grid.append(createAttachmentBlock());
   appendIfAny(grid, resume.notes, () => createTagsBlock("备注", resume.notes));
 
   if (!grid.children.length) {
@@ -142,6 +145,84 @@ function createListBlock(title, items = [], renderer, listClass = "clean-list") 
   }
   block.append(list);
   return block;
+}
+
+function createAttachmentBlock() {
+  const block = element("section", "private-block attachment-block full-width");
+  block.append(
+    element("h3", "", "附件简历"),
+    element("p", "item-meta", "附件已加密保存，点击后将在浏览器本地解密并下载。")
+  );
+
+  const button = element("button", "download-attachment-btn", "下载附件简历");
+  button.type = "button";
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    button.textContent = "正在解密...";
+    try {
+      await downloadAttachment(activePassword);
+      button.textContent = "下载附件简历";
+    } catch (error) {
+      console.error(error);
+      button.textContent = "下载失败，请重试";
+      setTimeout(() => {
+        button.textContent = "下载附件简历";
+      }, 1800);
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  block.append(button);
+  return block;
+}
+
+async function downloadAttachment(password) {
+  const response = await fetch("resume-attachment.enc.json", { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error("Encrypted attachment file could not be loaded.");
+  }
+  const payload = await response.json();
+  const bytes = await decryptBinaryPayload(payload, password);
+  const blob = new Blob([bytes], { type: payload.mimeType || "application/octet-stream" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = payload.fileName || "resume.pdf";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function decryptBinaryPayload(payload, password) {
+  validatePayload(payload);
+
+  const salt = base64ToBytes(payload.salt);
+  const iv = base64ToBytes(payload.iv);
+  const ciphertext = base64ToBytes(payload.ciphertext);
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    "PBKDF2",
+    false,
+    ["deriveKey"]
+  );
+
+  const key = await crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: payload.iterations,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+
+  return crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ciphertext);
 }
 
 function createContactBlock(contact = []) {
