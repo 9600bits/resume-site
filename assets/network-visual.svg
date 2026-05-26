@@ -1,51 +1,74 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
-  <title id="title">Modern geometric pattern</title>
-  <desc id="desc">Abstract geometric shapes with gradient background</desc>
+  <title id="title">Cyber network topology</title>
+  <desc id="desc">A dark technical network topology with routed links, nodes, and security telemetry lines.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#667eea"/>
-      <stop offset="0.5" stop-color="#764ba2"/>
-      <stop offset="1" stop-color="#f093fb"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1511"/>
+      <stop offset="0.54" stop-color="#10231c"/>
+      <stop offset="1" stop-color="#19160e"/>
     </linearGradient>
-    <linearGradient id="shape1" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#4facfe" stop-opacity="0.3"/>
-      <stop offset="1" stop-color="#00f2fe" stop-opacity="0.1"/>
+    <linearGradient id="trace" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7ef5c9" stop-opacity="0"/>
+      <stop offset="0.42" stop-color="#7ef5c9" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#ffb86b" stop-opacity="0.92"/>
     </linearGradient>
-    <linearGradient id="shape2" x1="0" x2="1" y1="1" y2="0">
-      <stop offset="0" stop-color="#fa709a" stop-opacity="0.3"/>
-      <stop offset="1" stop-color="#fee140" stop-opacity="0.1"/>
-    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#7ef5c9" stroke-opacity="0.09" stroke-width="1"/>
+    </pattern>
   </defs>
 
   <rect width="960" height="640" fill="url(#bg)"/>
+  <rect width="960" height="640" fill="url(#grid)"/>
 
-  <!-- 装饰性几何图形 -->
-  <g opacity="0.4">
-    <circle cx="780" cy="120" r="180" fill="url(#shape1)"/>
-    <circle cx="850" cy="450" r="140" fill="url(#shape2)"/>
-    <rect x="650" y="200" width="200" height="200" rx="20" fill="url(#shape1)" transform="rotate(15 750 300)"/>
+  <g fill="none" stroke="#d6e4dd" stroke-opacity="0.12">
+    <path d="M84 120h224l72 72h176l84-84h238"/>
+    <path d="M126 492h186l82-82h138l76 76h230"/>
+    <path d="M218 84v138l92 92v176"/>
+    <path d="M704 92v132l-86 86v220"/>
   </g>
 
-  <!-- 网络节点装饰 -->
-  <g fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3">
-    <circle cx="720" cy="180" r="8"/>
-    <circle cx="820" cy="240" r="8"/>
-    <circle cx="780" cy="320" r="8"/>
-    <circle cx="860" cy="380" r="8"/>
-    <line x1="720" y1="180" x2="820" y2="240"/>
-    <line x1="820" y1="240" x2="780" y2="320"/>
-    <line x1="780" y1="320" x2="860" y2="380"/>
+  <g fill="none" stroke="url(#trace)" stroke-width="3" stroke-linecap="round" filter="url(#glow)">
+    <path d="M132 184h164l78 78h150l84-84h202"/>
+    <path d="M188 444h132l72-72h168l68 68h170"/>
+    <path d="M516 126l74 74v112l-74 74"/>
   </g>
 
-  <!-- 代码符号装饰 -->
-  <g fill="#ffffff" opacity="0.15" font-family="monospace" font-size="48" font-weight="bold">
-    <text x="680" y="140">&lt;/&gt;</text>
-    <text x="800" y="520">{ }</text>
+  <g fill="#7ef5c9" filter="url(#glow)">
+    <circle cx="132" cy="184" r="6"/>
+    <circle cx="296" cy="184" r="6"/>
+    <circle cx="374" cy="262" r="7"/>
+    <circle cx="524" cy="262" r="6"/>
+    <circle cx="608" cy="178" r="7"/>
+    <circle cx="810" cy="178" r="6"/>
+    <circle cx="188" cy="444" r="6"/>
+    <circle cx="392" cy="372" r="7"/>
+    <circle cx="628" cy="440" r="7"/>
+    <circle cx="798" cy="440" r="6"/>
   </g>
 
-  <!-- 六边形装饰 -->
-  <g fill="none" stroke="#ffffff" stroke-width="3" opacity="0.2">
-    <path d="M750 420l30-17.5v-35l-30-17.5-30 17.5v35z"/>
-    <path d="M850 160l40-23v-46l-40-23-40 23v46z"/>
+  <g fill="none" stroke="#ffb86b" stroke-opacity="0.78" stroke-width="2">
+    <path d="M730 268l46-27 46 27v54l-46 27-46-27z"/>
+    <path d="M758 276h36v26h-36z"/>
+    <path d="M767 276v-10a9 9 0 0118 0v10"/>
+  </g>
+
+  <g font-family="Consolas, monospace" font-size="16" fill="#d6e4dd" fill-opacity="0.42">
+    <text x="92" y="92">ACL: PASS</text>
+    <text x="642" y="92">VLAN 161</text>
+    <text x="686" y="528">PBKDF2 / AES-GCM</text>
+    <text x="130" y="548">DATACOM ROUTE MAP</text>
+  </g>
+
+  <g fill="#8aa4ff" fill-opacity="0.2">
+    <rect x="666" y="120" width="126" height="34" rx="4"/>
+    <rect x="126" y="508" width="210" height="34" rx="4"/>
+    <rect x="608" y="486" width="242" height="34" rx="4"/>
   </g>
 </svg>
